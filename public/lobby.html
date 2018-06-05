@@ -18,19 +18,37 @@
           <h1>Lobby</h1>
         </div>
       </div>
+      <div class="row align-items-end" id="players">
+        <div class="col-9 text-left">
+          <h3>Players</h3>
+        </div>
+        <div class="col-3"></div>
+      </div>
       <div class="row">
         <div class="col">
             <h3>Messages</h3>
             <div id="messages"></div>
         </div>
       </div>
+      <div class="row">
+        <div class="col">
+          <form onsubmit="send_message(); return false;">
+            <div class="form-group">
+              <label for="send_message_holder" class="col-form-label sr-only">Enter your chat message</label>
+              <input class="form-control" type="text" value="" id="send_message_holder">
+            </div>
+            <button type="submit" class="btn btn-default btn-primary">Send</button>
+          </form>
+        </div>
+      </div>
     </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
     <script src="main.js"></script>
   </body>
 </html>
