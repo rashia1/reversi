@@ -320,34 +320,34 @@ $(function(){
 // Code for the board specifically
 
 var old_board = [
-	['?','?','?','?','?','?','?','?',],
-	['?','?','?','?','?','?','?','?',],
-	['?','?','?','?','?','?','?','?',],
-	['?','?','?','?','?','?','?','?',],
-	['?','?','?','?','?','?','?','?',],
-	['?','?','?','?','?','?','?','?',],
-	['?','?','?','?','?','?','?','?',],
-	['?','?','?','?','?','?','?','?',]
+	['?','?','?','?','?','?','?','?'],
+	['?','?','?','?','?','?','?','?'],
+	['?','?','?','?','?','?','?','?'],
+	['?','?','?','?','?','?','?','?'],
+	['?','?','?','?','?','?','?','?'],
+	['?','?','?','?','?','?','?','?'],
+	['?','?','?','?','?','?','?','?'],
+	['?','?','?','?','?','?','?','?']
 ];
 
 var my_color = ' ';
 
 socket.on('game_update', function(payload){
 	console.log('*** Client Log Message: \'game_update\' \n\tpayload: '+JSON.stringify(payload));
-	// Check for a good board update
+	/* Check for a good board update */
 	if (payload.result === 'fail') {
 		console.log(payload.message);
 		window.location.href = 'lobby.html?username='+username;
 		return;
 	}
-	// Check for a good board in payload
+	/* Check for a good board in payload */
 	var board = payload.game.board;
 	if ('undefined' === typeof board || !board){
 		console.log('Internal error: received a malformed board update from the server');
 		return;
 	}
 
-	// update my color
+	/* update my color */
 	if (socket.id === payload.game.player_white.socket) {
 		my_color = 'white';
 	}
@@ -355,15 +355,15 @@ socket.on('game_update', function(payload){
 		my_color = 'black';
 	}
 	else {
-		// something weird is going on, like three people playing at once
-		// send client back to the lobby
+		/*something weird is going on, like three people playing at once */
+		/* send client back to the lobby*/
 		window.location.href = 'lobby.html?username='+username;
 		return;
 	}
 	
 	$('#my_color').html('<h3 id="my_color">I am '+my_color+'</h3>');
 	
-	// Animate changes to the board
+	/* Animate changes to the board */
 	
 	var blacksum = 0;
 	var whitesum = 0;
@@ -404,7 +404,7 @@ socket.on('game_update', function(payload){
 					$('#'+row+'_'+column).html('<img src="assets/images/error.gif" alt="white square"> alt="error"/>');
 				}
 				
-				// Set up interactivity
+				/*Set up interactivity */
 				$('#'+row+'_'+column).off('click');
 				if (board[row][column] === ' '){
 					$('#'+row+'_'+column).addClass('hovered_over');
@@ -442,16 +442,15 @@ socket.on('play_token_response', function(payload){
 });
 
 socket.on('game_over', function(payload){
-	console.log('*** Client Log Message: \'game_over\'\n\tpayload: '+JSON.stringify(payload));
+	console.log('*** Client Log Message: \'game_over\'\n\tpayload:'+JSON.stringify(payload));
 	// Check for a good play_token_response
 	if (payload.result === 'fail') {
 		console.log(payload.message);
-		alert(payload.message);
 		return;
 	}
 	
 	// Jump to a new page
 	$('#game_over').html('<h1>Game Over</h1><h2>'+payload.who_won+' won!</h2>');
-	$('#game_over').append('<br><a href="lobby.html?username='+username+'" class="btn btn-success btn-lg active" role="button" aria-pressed="true">Return to the lobby</a>');
+	$('#game_over').append('<a href="lobby.html?username='+username+'" class="btn btn-success btn-lg active" role="button" aria-pressed="true">Return to the lobby</a>');
 });
 
