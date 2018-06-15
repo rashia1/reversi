@@ -267,7 +267,7 @@ socket.on('send_message_response', function(payload){ // Send message response
 
 function makeInviteButton(socket_id) { // make an invite button
 	
-	var newHTML = '<button type=\'button\' class=\'btn btn-outline-primary\'>Invite</button>';
+	var newHTML = '<button type=\'button\' id=\'invite-btn-a\' class=\'btn  invite-btn btn-outline-primary\'>Provoke War</button>';
 	var newNode = $(newHTML);
 	newNode.click(function(){
 		invite(socket_id);
@@ -278,7 +278,7 @@ function makeInviteButton(socket_id) { // make an invite button
 
 function makeInvitedButton(socket_id) { // make an invited button
 	
-	var newHTML = '<button type=\'button\' class=\'btn btn-primary\'>Invited</button>';
+	var newHTML = '<button type=\'button\' id=\'invited-btn-a\' class=\'btn invited-btn btn-primary\'>Provoked War</button>';
 	var newNode = $(newHTML);
 	newNode.click(function(){
 		uninvite(socket_id);
@@ -289,7 +289,7 @@ function makeInvitedButton(socket_id) { // make an invited button
 
 function makePlayButton(socket_id) { // make a play button
 	
-	var newHTML = '<button type=\'button\' class=\'btn btn-success\'>Play</button>';
+	var newHTML = '<button type=\'button\' id=\'play-btn-a\' class=\'btn play-btn btn-success\'>Start War</button>';
 	var newNode = $(newHTML);
 	newNode.click(function(){
 		game_start(socket_id);
@@ -361,9 +361,25 @@ socket.on('game_update', function(payload){
 		window.location.href = 'lobby.html?username='+username;
 		return;
 	}
+
+	if ( my_color == 'white') {
+	var player_name = 'World';
+	}
+	else {
+	var player_name = 'Trump';
+	}
 	
-	$('#my_color').html('<h3 id="my_color">I am '+my_color+'</h3>');
-	$('#my_color').append('<h4>It is '+payload.game.whose_turn+'\'s turn. Elapsed time <span id="elapsed"></span></h4>');
+	if ( payload.game.whose_turn == 'white') {
+	var player_turn = 'World';
+	}
+	else {
+	var player_turn = 'Trump';
+	}
+	
+	payload.game.whose_turn
+	
+	$('#my_color').html('<h3 id="my_color">You are '+player_name+'!!!</h3>');
+	$('#my_color').append('<h4>It is '+player_turn+'\'s turn. Elapsed time <span id="elapsed"></span></h4>');
 	
 	clearInterval(interval_timer);
 		interval_timer = setInterval(function(last_time){
@@ -404,28 +420,28 @@ socket.on('game_update', function(payload){
 					$('#'+row+'_'+column).html('<img src="assets/images/empty.gif" alt="empty square"/>');
 				}
 				else if (old_board[row][column] === '?' && board[row][column] === 'w') {
-					$('#'+row+'_'+column).html('<img src="assets/images/empty_to_white.gif" alt="white square">');
+					$('#'+row+'_'+column).html('<img src="assets/images/empty_to_world.gif" alt="white square">');
 				}
 				else if (old_board[row][column] === '?' && board[row][column] === 'b'){
-					$('#'+row+'_'+column).html('<img src="assets/images/empty_to_black.gif" alt="black square">');
+					$('#'+row+'_'+column).html('<img src="assets/images/empty_to_trump.gif" alt="black square">');
 				}
 				else if (old_board[row][column] === ' ' && board[row][column] === 'w') {
-					$('#'+row+'_'+column).html('<img src="assets/images/empty_to_white.gif" alt="empty square">');
+					$('#'+row+'_'+column).html('<img src="assets/images/empty_to_world.gif" alt="empty square">');
 				}
 				else if (old_board[row][column] === ' ' && board[row][column] === 'b'){
-					$('#'+row+'_'+column).html('<img src="assets/images/empty_to_black.gif" alt="empty square">');
+					$('#'+row+'_'+column).html('<img src="assets/images/empty_to_trump.gif" alt="empty square">');
 				}
 				else if (old_board[row][column] === 'w' && board[row][column] === ' ') {
-					$('#'+row+'_'+column).html('<img src="assets/images/white_to_black.gif" alt="black square">');
+					$('#'+row+'_'+column).html('<img src="assets/images/world_to_trump.gif" alt="black square">');
 				}
 				else if (old_board[row][column] === 'b' && board[row][column] === ' '){
-					$('#'+row+'_'+column).html('<img src="assets/images/black_to_white.gif" alt="white square">');
+					$('#'+row+'_'+column).html('<img src="assets/images/trump_to_world.gif" alt="white square">');
 				}
 				else if (old_board[row][column] === 'w' && board[row][column] === 'b') {
-					$('#'+row+'_'+column).html('<img src="assets/images/white_to_black.gif" alt="black square">');
+					$('#'+row+'_'+column).html('<img src="assets/images/world_to_trump.gif" alt="black square">');
 				}
 				else if (old_board[row][column] === 'b' && board[row][column] === 'w'){
-					$('#'+row+'_'+column).html('<img src="assets/images/black_to_white.gif" alt="white square">');
+					$('#'+row+'_'+column).html('<img src="assets/images/trump_to_world.gif" alt="white square">');
 				}
 				else {
 					$('#'+row+'_'+column).html('<img src="assets/images/error.gif" alt="error"/>');
